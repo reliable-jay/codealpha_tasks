@@ -1,0 +1,229 @@
+/* --- Reset & Base, To Get Rid of Browser's Default Settings --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg-page: #f4f5f6;
+  --bg-calc: #16213e;
+  --bg-display: #a17944;
+  --btn-number: #1a1a2e;
+  --btn-special: #0f3460;
+  --btn-operator: #e94560;
+  --btn-equals: #063146;
+  --btn-hover-num: #252545;
+  --btn-hover-sp: #1a3a5e;
+  --btn-hover-op: #ff6b7a;
+  --text-primary: #ffffff;
+  --text-display: #ffffff;
+  --text-history: rgba(255, 255, 255, 0.45);
+  --text-operator: #ffffff;
+  --shadow-calc: 0 25px 60px rgba(0, 0, 0, 0.5);
+  --shadow-btn: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --radius-calc: 24px;
+  --radius-btn: 14px;
+  --radius-display: 16px;
+  --font-display: "Segoe UI", "SF Pro Display", system-ui, sans-serif;
+  --transition: 0.15s ease;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-page);
+  font-family: var(--font-display);
+  padding: 1rem;
+}
+
+/* ── Calculator shell ─────────────────────────────────────── */
+.calculator {
+  width: 340px;
+  background: var(--bg-calc);
+  border-radius: var(--radius-calc);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-calc);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ── Display ──────────────────────────────────────────────── */
+.display {
+  background: var(--bg-display);
+  border-radius: var(--radius-display);
+  padding: 1.25rem 1.5rem 1.25rem;
+  margin-bottom: 1.25rem;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.display-history {
+  font-size: 0.875rem;
+  color: var(--text-history);
+  min-height: 1.2em;
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.display-current {
+  font-size: 2.75rem;
+  font-weight: 300;
+  color: var(--text-display);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  transition: font-size var(--transition);
+  /* word-break: break-all; */
+  text-align: right;
+}
+
+.display-current.long {
+  font-size: 2rem;
+}
+.display-current.vlong {
+  font-size: 1.5rem;
+}
+
+/* ── Button grid ──────────────────────────────────────────── */
+.btn-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.btn {
+  height: 64px;
+  border: none;
+  border-radius: var(--radius-btn);
+  font-size: 1.125rem;
+  font-weight: 400;
+  font-family: var(--font-display);
+  cursor: pointer;
+  color: var(--text-primary);
+  background: var(--btn-number);
+  box-shadow: var(--shadow-btn);
+  transition:
+    background var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0);
+  transition: background 0.1s;
+  border-radius: inherit;
+}
+
+.btn:hover {
+  background: var(--btn-hover-num);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.btn:active,
+.btn.pressed {
+  transform: scale(0.93) translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Special (AC, +/-, %) */
+.btn-special {
+  background: var(--btn-special);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+.btn-special:hover {
+  background: var(--btn-hover-sp);
+}
+
+/* Operators (÷ × - +) */
+.btn-operator {
+  background: var(--btn-operator);
+  font-size: 1.3rem;
+  font-weight: 300;
+}
+.btn-operator:hover {
+  background: var(--btn-hover-op);
+}
+.btn-operator.active-op {
+  background: #ffffff;
+  color: var(--btn-operator);
+}
+
+/* Equals */
+.btn-equals {
+  background: var(--btn-equals);
+  font-size: 1.3rem;
+  font-weight: 300;
+}
+.btn-equals:hover {
+  background: #004643;
+}
+
+/* Zero spans 2 cols, left-aligned text */
+.btn-zero {
+  grid-column: span 2;
+  justify-content: flex-start;
+  padding-left: 1.4rem;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  font-size: 1.125rem;
+}
+
+/* ── Keyboard hint ────────────────────────────────────────── */
+.keyboard-hint {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 0.04em;
+}
+
+/* ── Error state ──────────────────────────────────────────── */
+.display-current.error {
+  color: #ff6b7a;
+  font-size: 1.8rem;
+}
+
+/* ── Responsiveness ───────────────────────────────────────────── */
+@media (max-width: 380px) {
+  .calculator {
+    width: 100%;
+    padding: 1.1rem;
+  }
+  .btn {
+    height: 58px;
+    font-size: 1rem;
+  }
+  .display-current {
+    font-size: 2.25rem;
+  }
+}
+
+/* ── Reduced motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .display-current {
+    transition: none;
+  }
+}
