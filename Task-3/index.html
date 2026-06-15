@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>JYM | Frontend Developer</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header>
+      <nav class="navbar">
+        <div class="logo">&mdash;JYM<span>.</span></div>
+
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#resume">Resume</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <button id="menu-btn">☰</button>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+      <div class="hero-text">
+        <h1>Hi, I'm John Magai</h1>
+
+        <h2>Frontend Web Developer</h2>
+
+        <p>
+          I build responsive and user-friendly websites using HTML, CSS and
+          JavaScript.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#projects" class="btn">View Projects</a>
+          <a href="#contact" class="btn-outline">Contact Me</a>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <img
+          src="https://res.cloudinary.com/doowcez6w/image/upload/v1777977620/1707133377232_vn5kbh.jpg"
+          alt="Profile Picture"
+          loading="lazy"
+        />
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <h2 class="section-title">About Me</h2>
+
+      <p class="about-text">
+        I'm an aspiring Frontend Developer passionate about creating modern and
+        responsive websites. My current stack includes HTML, CSS and JavaScript.
+        I enjoy learning new technologies and building practical projects that
+        improve my skills.
+      </p>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section">
+      <h2 class="section-title">Skills</h2>
+
+      <div class="skills">
+        <div class="skill-card">HTML5</div>
+
+        <div class="skill-card">CSS3</div>
+
+        <div class="skill-card">JavaScript</div>
+
+        <div class="skill-card">Responsive Web Design</div>
+
+        <div class="skill-card">Git & GitHub</div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <h2 class="section-title">Projects</h2>
+
+      <div class="projects-grid">
+        <div class="project-card">
+          <h3>Image Gallery</h3>
+
+          <p>
+            Responsive photo gallery page with CSS Grid layout, modern UI,
+            category filters and lightbox view.
+          </p>
+
+          <a href="https://jayphotogallery.netlify.app/" target="_blank"
+            >Visit Live Demo</a
+          >
+        </div>
+
+        <div class="project-card">
+          <h3>Calculator App</h3>
+
+          <p>A calculator built with HTML, CSS and JavaScript.</p>
+
+          <a href="https://jaycalculatorapp.netlify.app/" target="_blank"
+            >Visit Live Demo</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <div class="project-card">
+      <h3>Portfolio Website</h3>
+
+      <p>This site. Personal portfolio showcasing my projects and skills.</p>
+
+      <a href="#home">Visit Live Demo</a>
+    </div>
+
+    <!-- RESUME -->
+    <section id="resume" class="section resume">
+      <h2 class="section-title">Resume</h2>
+
+      <p>
+        Download my resume to learn more about my education, experience and
+        technical skills.
+      </p>
+
+      <a href="./asset/JOHN_Y._MAGAI_RESUME_1_ijxfgi.pdf" class="btn" download>
+        Download Resume
+      </a>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <h2 class="section-title">Contact Me</h2>
+
+      <form
+        id="contact-form"
+        action="https://formspree.io/f/xjgdpzgk"
+        method="POST"
+        autocomplete="on"
+      >
+        <input type="text" name="name" placeholder="Your Name:" required />
+
+        <input type="email" name="email" placeholder="Your Email:" required />
+
+        <textarea
+          name="message"
+          rows="6"
+          placeholder="Your Message:"
+          required
+        ></textarea>
+
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>© 2026 John Y. Magai. All Rights Reserved.</p>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
