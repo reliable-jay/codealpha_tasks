@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Gallery | —JYM</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!--
+    ============================================================
+    HTML STRUCTURE OVERVIEW
+    ============================================================
+  -->
+
+    <!-- HEADER -->
+    <header class="header">
+      <div>
+        <p class="header-eyebrow">Photography Portfolio</p>
+        <h1 class="header-title">Jay <em>Magai</em></h1>
+      </div>
+      <!-- "span" is updated by JS when the filter changes -->
+      <p class="photo-count"><span id="count">12</span> photos</p>
+    </header>
+
+    <!-- FILTER BUTTONS -->
+    <nav class="filter-bar" aria-label="Filter photos by category">
+      <!--
+      data-filter is a custom HTML attribute.
+      JS reads it to know which category to show.
+    -->
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="mountains">Mountains</button>
+      <button class="filter-btn" data-filter="ocean">Ocean</button>
+      <button class="filter-btn" data-filter="forest">Forest</button>
+      <button class="filter-btn" data-filter="desert">Desert</button>
+    </nav>
+
+    <!-- GALLERY GRID -->
+    <main class="gallery">
+      <div class="gallery-grid" id="gallery-grid">
+        <!--
+        Each .gallery-card has:
+          data-category — used by the filter
+          data-index    — used by the lightbox to find this photo
+          tabindex="0"  — makes it keyboard-focusable
+      -->
+
+        <div
+          class="gallery-card"
+          data-category="mountains"
+          data-index="0"
+          tabindex="0"
+          role="button"
+          aria-label="Open Dolomite Peaks"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80"
+            alt="Dolomite peaks rising through morning mist"
+            loading="lazy"
+          />
+          <div class="card-caption">
+            <h3>Dolomite Peaks</h3>
+            <p>Mountains · Italy</p>
+          </div>
+        </div>
+
+        <div
+          class="gallery-card"
+          data-category="mountains"
+          data-index="1"
+          tabindex="0"
+          role="button"
+          aria-label="Open Alpine Sunrise"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80"
+            alt="Alpine sunrise over snowy ridges"
+            loading="lazy"
+          />
+          <div class="card-caption">
+            <h3>Alpine Sunrise</h3>
+            <p>Mountains · Switzerland</p>
+          </div>
+        </div>
+
+        <div
+          class="gallery-card"
+          data-category="ocean"
+          data-index="2"
+          tabindex="0"
+          role="button"
+          aria-label="Open Pacific Horizon"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=600&q=80"
+            alt="Vast Pacific ocean at sunset"
+            loading="lazy"
+          />
+          <div class="card-caption">
+            <h3>Pacific Horizon</h3>
+            <p>Ocean · California</p>
+          </div>
+        </div>
+
+        <div
+          class="gallery-card"
+          data-category="ocean"
+          data-index="3"
+          tabindex="0"
+          role="button"
+          aria-label="Open Turquoise Shallows"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80"
+            alt="Turquoise shallow water over white sand"
+            loading="lazy"
+          />
+          <div class="card-caption">
+            <h3>Turquoise Shallows</h3>
+            <p>Ocean · Maldives</p>
+          </div>
+        </div>
+
+        <div
+          class="gallery-card"
+          data-category="forest"
+          data-index="4"
+          tabindex="0"
+          role="button"
+          aria-label="Open Redwood Cathedral"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&q=80"
+            alt="Ancient redwood trees forming a green cathedral"
+            loading="lazy"
+          />
+          <div class="card-caption">
+            <h3>Redwood Cathedral</h3>
+            <p>Forest · California</p>
+          </div>
+        </div>
+
+        <div
+          class="gallery-card"
+          data-category="forest"
+          data-index="5"
+          tabindex="0"
+          role="button"
+          aria-label="Open Misty Pines"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=600&q=80"
+            alt="Pine forest in early morning mist"
+            loading="lazy"
+          />
+          <div class="card-caption">
+            <h3>Misty Pines</h3>
+            <p>Forest · Oregon</p>
+          </div>
+        </div>
+
+        <div
+          class="gallery-card"
+          data-category="desert"
+          data-index="6"
+          tabindex="0"
+          role="button"
+          aria-label="Open Sahara Dunes"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=600&q=80"
+            alt="Sahara sand dunes at golden hour"
+            loading="lazy"
+          />
+          <div class="card-caption">
+            <h3>Sahara Dunes</h3>
+            <p>Desert · Morocco</p>
+          </div>
+        </div>
+
+        <div
+          class="gallery-card"
+          data-category="desert"
+          data-index="7"
+          tabindex="0"
+          role="button"
+          aria-label="Open Red Rock Canyon"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80"
+            alt="Red rock canyon formations under blue sky"
+            loading="lazy"
+          />
+          <div class="card-caption">
+            <h3>Red Rock Canyon</h3>
+            <p>Desert · Utah</p>
+          </div>
+        </div>
+
+        <div
+          class="gallery-card"
+          data-category="mountains"
+          data-index="8"
+          tabindex="0"
+          role="button"
+          aria-label="Open Valley Mist"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1454496522488-7a8e488e8606?w=600&q=80"
+            alt="Mountain valley filled with morning mist"
+            loading="lazy"
+          />
+          <div class="card-caption">
+            <h3>Valley Mist</h3>
+            <p>Mountains · Norway</p>
+          </div>
+        </div>
+
+        <div
+          class="gallery-card"
+          data-category="ocean"
+          data-index="9"
+          tabindex="0"
+          role="button"
+          aria-label="Open Sea Cliffs"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1505144808419-1957a94ca61e?w=600&q=80"
+            alt="Dramatic sea cliffs above crashing waves"
+            loading="lazy"
+          />
+          <div class="card-caption">
+            <h3>Sea Cliffs</h3>
+            <p>Ocean · Ireland</p>
+          </div>
+        </div>
+
+        <div
+          class="gallery-card"
+          data-category="forest"
+          data-index="10"
+          tabindex="0"
+          role="button"
+          aria-label="Open Autumn Path"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=600&q=80"
+            alt="Forest path covered in golden autumn leaves"
+            loading="lazy"
+          />
+          <div class="card-caption">
+            <h3>Autumn Path</h3>
+            <p>Forest · Vermont</p>
+          </div>
+        </div>
+
+        <div
+          class="gallery-card"
+          data-category="desert"
+          data-index="11"
+          tabindex="0"
+          role="button"
+          aria-label="Open Antelope Canyon"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?w=600&q=80"
+            alt="Sandstone walls of Antelope Canyon glowing orange"
+            loading="lazy"
+          />
+          <div class="card-caption">
+            <h3>Antelope Canyon</h3>
+            <p>Desert · Arizona</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ============================================================
+       LIGHTBOX
+       Always in the DOM but invisible.
+       JS adds/removes the .open class to show/hide it.
+  ============================================================ -->
+    <div
+      class="lightbox"
+      id="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Photo viewer"
+    >
+      <!-- Close button -->
+      <button class="lb-btn lb-close" id="lb-close" aria-label="Close">
+        &#x2715;
+      </button>
+
+      <!-- Prev / Next navigation -->
+      <button class="lb-btn lb-prev" id="lb-prev" aria-label="Previous photo">
+        &#8592;
+      </button>
+      <button class="lb-btn lb-next" id="lb-next" aria-label="Next photo">
+        &#8594;
+      </button>
+
+      <!-- The big image — src and alt are set by JS -->
+      <img class="lightbox-img" id="lb-img" src="" alt="" />
+
+      <!-- "3 / 12" counter -->
+      <p class="lightbox-counter" id="lb-counter"></p>
+
+      <!-- Photo title + location -->
+      <div class="lightbox-caption">
+        <h3 id="lb-title"></h3>
+        <p id="lb-location"></p>
+      </div>
+
+      <!-- Keyboard hint -->
+      <p class="lb-hint">← → to navigate &nbsp;·&nbsp; Esc to close</p>
+    </div>
+
+    <script src="./script.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,469 @@
+/* ── Google Fonts ─────────────────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap");
+
+/* ============================================================
+       STEP 2 — CSS VARIABLES (Design Tokens)
+       We store our colours and fonts in one place.
+       If you want to change the gold colour, change it HERE only.
+    ============================================================ */
+:root {
+  --colour-bg: #0e0e0e; /* page background (near black)   */
+  --colour-card: #1e1e1e; /* gallery card background        */
+  --colour-gold: #c8a96e; /* our accent / highlight colour  */
+  --colour-white: #f2f2f2; /* main text colour               */
+  --colour-grey: #999999; /* dimmer text colour             */
+  --colour-overlay: rgba(0, 0, 0, 0.95); /* lightbox backdrop   */
+}
+
+/* ============================================================
+       STEP 3 — RESET
+       Browsers add default margin/padding. We remove it so we
+       start with a blank slate.
+    ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* padding doesn't grow elements */
+}
+
+/* ============================================================
+       STEP 4 — BODY / BASE STYLES
+    ============================================================ */
+body {
+  background-color: var(--colour-bg);
+  color: var(--colour-white);
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ============================================================
+       STEP 5 — HEADER
+       flex + space-between pushes title left, count right.
+    ============================================================ */
+.header {
+  max-width: 1100px;
+  margin: 0 auto; /* centre horizontally */
+  padding: 3rem 2rem 1.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap; /* stack on small screens */
+  gap: 1rem;
+}
+
+.header-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--colour-grey);
+  margin-bottom: 0.4rem;
+}
+
+.header-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2rem, 5vw, 3rem); /* clamp = min / preferred / max */
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+/* "the Lens" part is italic and gold */
+.header-title em {
+  font-style: italic;
+  color: var(--colour-gold);
+}
+
+/* Small photo count on the right */
+.photo-count {
+  font-size: 13px;
+  color: var(--colour-grey);
+}
+
+.photo-count span {
+  color: var(--colour-gold);
+  font-weight: 500;
+}
+
+/* ============================================================
+       STEP 6 — FILTER BUTTONS
+       These let the user show only one category.
+    ============================================================ */
+.filter-bar {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.5rem 2rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 6px 16px;
+  border-radius: 100px; /* pill shape */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: var(--colour-grey);
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  /* smooth colour change on hover */
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.filter-btn:hover {
+  background: rgba(200, 169, 110, 0.12);
+  color: var(--colour-gold);
+  border-color: rgba(200, 169, 110, 0.35);
+}
+
+/* .active is added by JavaScript when a button is selected */
+.filter-btn.active {
+  background: var(--colour-gold);
+  color: #0e0e0e;
+  border-color: var(--colour-gold);
+  font-weight: 600;
+}
+
+/* ============================================================
+       STEP 7 — GALLERY GRID
+       CSS Grid automatically creates responsive columns.
+       "repeat(auto-fill, minmax(240px, 1fr))" means:
+         - Create as many columns as will fit
+         - Each column is at least 240px wide
+         - Stretch to fill leftover space (1fr)
+    ============================================================ */
+.gallery {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+/* ============================================================
+       STEP 8 — GALLERY CARD
+       Each card contains an <img> and a hidden caption.
+       overflow: hidden clips the image when it scales on hover.
+    ============================================================ */
+.gallery-card {
+  position: relative; /* needed so children can use position: absolute */
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--colour-card);
+  cursor: pointer;
+
+  /* Cards fade in when JS adds the .visible class */
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+/* JS adds .visible — the card becomes fully visible */
+.gallery-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* JS adds .hidden when a filter hides this card */
+.gallery-card.hidden {
+  display: none;
+}
+
+/* The image fills the card and keeps its proportions */
+.gallery-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; /* crop to fit without stretching */
+  display: block;
+  /* smooth scale + brightness change on hover */
+  transition:
+    transform 0.4s ease,
+    filter 0.4s ease;
+  filter: brightness(0.9);
+}
+
+/* Scale the image up slightly when the card is hovered */
+.gallery-card:hover img {
+  transform: scale(1.06);
+  filter: brightness(1);
+}
+
+/* Dark gradient sits on top of the image at the bottom */
+.gallery-card::after {
+  content: ""; /* pseudo-elements need content to appear */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  /* gradient from transparent at top to dark at bottom */
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+  /* hidden by default, shown on hover */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-card:hover::after {
+  opacity: 1;
+}
+
+/* Caption slides up from the bottom on hover */
+.card-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.85rem 1rem;
+  z-index: 2; /* above the gradient overlay */
+
+  /* hidden and shifted down by default */
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.gallery-card:hover .card-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-caption h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.card-caption p {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 2px;
+}
+
+/* ============================================================
+       STEP 9 — EMPTY STATE
+       Shows a message when no cards match the active filter.
+    ============================================================ */
+.empty-message {
+  display: none; /* hidden by default; JS shows it */
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--colour-grey);
+  font-size: 14px;
+}
+
+/* ============================================================
+       STEP 10 — LIGHTBOX
+       A full-screen overlay that shows one large image at a time.
+    ============================================================ */
+.lightbox {
+  /* Cover the entire viewport */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000; /* on top of everything */
+
+  background: var(--colour-overlay);
+
+  /* --- Layout: centre the image --- */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* --- JS adds .open to show the lightbox --- */
+.lightbox.open {
+  opacity: 1;
+  pointer-events: all; /* now it catches clicks */
+}
+
+/* --- The big image on clicked or view --- */
+.lightbox-img {
+  max-width: 88vw;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 3px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+  /* Simple fade when swapping images */
+  transition: opacity 0.2s ease;
+}
+
+/* --- While JS is swapping the image source, fade it out --- */
+.lightbox-img.swapping {
+  opacity: 0;
+}
+
+/* --- Caption below the image --- */
+.lightbox-caption {
+  position: absolute;
+  bottom: 4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.lightbox-caption h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--colour-white);
+}
+
+.lightbox-caption p {
+  font-size: 11px;
+  color: var(--colour-grey);
+  margin-top: 3px;
+  letter-spacing: 0.08em;
+}
+
+/* --- Counter "3 / 12" --- */
+.lightbox-counter {
+  position: absolute;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  color: var(--colour-grey);
+  letter-spacing: 0.1em;
+}
+
+/* --- Lightbox Buttons --- */
+/* All three buttons (close, prev, next) share this base style */
+.lb-btn {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.lb-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* --- Close button — top right corner --- */
+.lb-close {
+  top: 1.25rem;
+  right: 1.5rem;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* --- Prev / Next — vertically centred on left and right --- */
+.lb-prev,
+.lb-next {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  font-size: 22px;
+}
+
+.lb-prev {
+  left: 1.5rem;
+}
+.lb-next {
+  right: 1.5rem;
+}
+
+/* --- Keyboard hint at bottom right --- */
+.lb-hint {
+  position: absolute;
+  bottom: 1.25rem;
+  right: 1.5rem;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 0.08em;
+}
+
+/* ============================================================
+       STEP 11 — RESPONSIVE ADJUSTMENTS
+       On small screens, we simplify the layout.
+    ============================================================ */
+@media (max-width: 600px) {
+  .header {
+    padding: 2rem 1.25rem 1rem;
+  }
+  .filter-bar {
+    padding: 0 1.25rem 1.5rem;
+  }
+  .gallery {
+    padding: 0 1.25rem 3rem;
+  }
+
+  /* 2 equal columns on phone */
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gallery-card img {
+    height: 150px;
+  }
+
+  /* Hide hint text on mobile — not enough room */
+  .lb-hint {
+    display: none;
+  }
+
+  .lb-prev {
+    left: 0.4rem;
+  }
+  .lb-next {
+    right: 0.4rem;
+  }
+}
+
+/* ============================================================
+       STEP 12 — ACCESSIBILITY: Respect user motion preference
+       If the user has "reduce motion" turned on in their OS,
+       we disable all animations.
+    ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .gallery-card,
+  .gallery-card img,
+  .card-caption,
+  .lightbox,
+  .lightbox-img {
+    transition: none !important;
+  }
+  /* Show cards immediately — no fade-in animation */
+  .gallery-card {
+    opacity: 1;
+    transform: none;
+  }
+}
